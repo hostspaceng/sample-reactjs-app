@@ -1,5 +1,5 @@
 variable "azure_sp_id" {
-  description = "Azure Service Principal ID"
+  description = "Azure Service Principal ID" 
 }
 
 variable "azure_sp_password" {
@@ -13,3 +13,6 @@ variable "azure_tenant_id" {
 variable "azure_subscription_id" {
   description = "Azure Subscription ID"
 }
+
+
+
