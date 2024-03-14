@@ -1,10 +1,10 @@
 provider "azurerm" {
   skip_provider_registration = "true"
   features {}
-  subscription_id = var.azure_subscription_id
-  tenant_id       = var.azure_tenant_id
-  client_id       = var.azure_sp_id
-  client_secret   = var.azure_sp_password
+  # subscription_id = var.azure_subscription_id
+  # tenant_id       = var.azure_tenant_id
+  # client_id       = var.azure_sp_id
+  # client_secret   = var.azure_sp_password
 }
 
 resource "azurerm_resource_group" "iog_rg" {
