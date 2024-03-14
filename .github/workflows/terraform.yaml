@@ -1,0 +1,33 @@
+name: Build Azure Resource with Terraform
+
+on:
+  push:
+    branches:
+      - azure-automation
+    paths:
+      - terraform/**
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }} # Legacy
+        ARM_CLIENT_ID: ${{ secrets.AZURE_SP_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.AZURE_SP_PASSWORD }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: ./terraform
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve
