@@ -1,0 +1,45 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+    #   - name: Base image
+    #     uses: azure/acr-build@v1
+    #     with:
+    #       service_principal: ${{ secrets.AZURE_SP_ID }}
+    #       service_principal_password: ${{ secrets.AZURE_SP_PASSWORD }}
+    #       tenant: ${{ secrets.AZURE_TENANT_ID }}
+    #       registry: ionets
+    #       repository: test
+    #       image: test-image
+    #       tag: nightly-py${{ matrix.python-version }}-${{ steps.short-sha.outputs.value }}
+    #       git_access_token: ${{ secrets.GITHUB_TOKEN }}
+    #       folder: ./
+    #       dockerfile: ./Dockerfile
+    #       branch: main
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: ./terraform
+        run: terraform plan
+
+    #   - name: Terraform Apply
+    #     run: terraform apply -auto-approve
